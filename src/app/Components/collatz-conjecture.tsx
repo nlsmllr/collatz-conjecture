@@ -58,9 +58,12 @@ const CollatzConjecture = () => {
           The Collatz Conjecture is a mathematical sequence that starts with any
           positive integer. If the number is even, it is divided by two; if it
           is odd, it is multiplied by three and one is added. The process is
-          repeated until the number reaches one. The conjecture is that this
-          process will always eventually reach one, regardless of the starting
-          number.
+          repeated until the number reaches one.
+        </p>
+
+        <p className="text-lg text-gray-700 max-w-lg mb-6">
+          The conjecture is that this process will always eventually reach one,
+          regardless of the starting number.
         </p>
 
         {/* Input and Button underneath text */}
