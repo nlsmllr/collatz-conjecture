@@ -16,7 +16,6 @@ const CollatzConjecture = () => {
   const [data, setData] = useState<{ iteration: number; value: number }[]>([
     { iteration: 0, value: 0 },
   ]);
-  const [iterations, setIterations] = useState<number | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(parseInt(e.target.value));
@@ -39,7 +38,6 @@ const CollatzConjecture = () => {
     }
     updates.push({ iteration: i, value });
     setData(updates);
-    setIterations(i);
   };
 
   // Handle key press (Enter) for submitting
