@@ -31,7 +31,7 @@ const collatz = (start: number): Point[] => {
   return points;
 };
 
-const formatNumber = (n: number) => n.toLocaleString("en-US");
+const formatNumber = (n: number) => n.toLocaleString("de-DE");
 
 const compact = (n: number) =>
   Intl.NumberFormat("en-US", { notation: "compact" }).format(n);
@@ -41,7 +41,7 @@ const ChartTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   const point = payload[0].payload as Point;
   return (
     <div className="border border-stone-300 bg-white px-2.5 py-1.5 text-xs">
-      <div className="text-stone-500">Step {point.iteration}</div>
+      <div className="text-stone-500">Schritt {point.iteration}</div>
       <div className="font-mono text-stone-900">{formatNumber(point.value)}</div>
     </div>
   );
@@ -67,11 +67,11 @@ const CollatzConjecture = () => {
 
   const run = (n: number) => {
     if (!Number.isInteger(n) || n <= 0) {
-      setError("Please enter a positive whole number.");
+      setError("Bitte eine positive ganze Zahl eingeben.");
       return;
     }
     if (n > MAX_INPUT) {
-      setError(`Please enter a number up to ${compact(MAX_INPUT)}.`);
+      setError(`Bitte eine Zahl bis ${formatNumber(MAX_INPUT)} eingeben.`);
       return;
     }
     setError("");
@@ -89,25 +89,27 @@ const CollatzConjecture = () => {
       {/* Left Section - Text and Input */}
       <section className="lg:col-span-2">
         <h1 className="mb-6 text-3xl font-semibold tracking-tight text-stone-900">
-          Collatz Conjecture
+          Collatz-Vermutung
         </h1>
 
         <p className="mb-4 max-w-md leading-relaxed text-stone-600">
-          Start with any positive integer. If it is even, divide it by two. If
-          it is odd, multiply it by three and add one. Repeat until the number
-          reaches one.
+          Man beginnt mit einer beliebigen positiven ganzen Zahl. Ist sie
+          gerade, wird sie halbiert. Ist sie ungerade, wird sie mit drei
+          multipliziert und eins addiert. Das wiederholt man, bis die Zahl eins
+          erreicht.
         </p>
 
         <p className="mb-4 max-w-md leading-relaxed text-stone-600">
-          The conjecture claims this process always eventually reaches one,
-          regardless of the starting number.
+          Die Vermutung besagt, dass dieser Ablauf immer bei eins ankommt, egal
+          mit welcher Zahl man startet.
         </p>
 
         <p className="mb-8 max-w-md leading-relaxed text-stone-600">
-          Nobody has been able to prove it. Computers have checked every
-          starting number up to more than 10<sup>20</sup>, but that is not a proof. The
-          sequences rise and fall with no obvious pattern, and no one can rule
-          out a number that grows forever or ends up in a different loop.
+          Bewiesen hat das bisher niemand. Computer haben jede Startzahl bis
+          über 10<sup>20</sup> geprüft, aber das ist kein Beweis. Die Folgen
+          steigen und fallen ohne erkennbares Muster, und niemand kann
+          ausschließen, dass es eine Zahl gibt, deren Folge unendlich wächst
+          oder in einer anderen Schleife endet.
         </p>
 
         {/* Input and Button */}
@@ -119,22 +121,22 @@ const CollatzConjecture = () => {
               inputMode="numeric"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Enter a number"
-              aria-label="Starting number"
+              placeholder="Zahl eingeben"
+              aria-label="Startzahl"
               className="min-w-0 flex-1 rounded-md border border-stone-300 bg-white px-3 py-2 font-mono text-stone-900 focus:border-stone-900 focus:outline-none"
             />
             <button
               type="submit"
               className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-400"
             >
-              Generate
+              Berechnen
             </button>
           </div>
 
           {error && <p className="mt-2 text-sm text-red-700">{error}</p>}
 
           <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
-            <span className="text-stone-500">Try:</span>
+            <span className="text-stone-500">Beispiele:</span>
             {PRESETS.map((n) => (
               <button
                 key={n}
@@ -158,8 +160,8 @@ const CollatzConjecture = () => {
         <div className="mb-6 flex items-end justify-between gap-6 border-b border-stone-200 pb-4">
           <div className="flex gap-8">
             <Stat label="Start" value={formatNumber(stats.start)} />
-            <Stat label="Steps" value={formatNumber(stats.steps)} />
-            <Stat label="Peak" value={formatNumber(stats.peak)} />
+            <Stat label="Schritte" value={formatNumber(stats.steps)} />
+            <Stat label="Maximum" value={formatNumber(stats.peak)} />
           </div>
           <div className="flex gap-3 text-sm">
             {(["Linear", "Log"] as const).map((label) => {
