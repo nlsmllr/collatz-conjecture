@@ -1,13 +1,9 @@
 import CollatzConjecture from "./Components/collatz-conjecture";
 
-
 export default function Home() {
   return (
-    <div className="items-center justify-items-center p-8 pb-20">
-      <main className="flex flex-col h-screen justify-center gap-8 row-start-2 items-center sm:items-start">
+    <div className="mx-auto flex min-h-screen max-w-6xl items-center px-4 py-12 sm:px-8">
       <CollatzConjecture />
-      </main>
-     
     </div>
   );
 }
