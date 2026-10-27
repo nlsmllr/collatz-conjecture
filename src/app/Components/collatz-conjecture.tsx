@@ -2,14 +2,13 @@
 
 import React, { useMemo, useState } from "react";
 import {
-  AreaChart,
-  Area,
+  LineChart,
+  Line,
   CartesianGrid,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  ReferenceDot,
   TooltipProps,
 } from "recharts";
 
@@ -41,23 +40,17 @@ const ChartTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (!active || !payload?.length) return null;
   const point = payload[0].payload as Point;
   return (
-    <div className="rounded-xl border border-white/10 bg-zinc-900/90 px-3 py-2 text-xs shadow-xl backdrop-blur">
-      <div className="text-zinc-400">Step {point.iteration}</div>
-      <div className="font-mono text-sm font-semibold text-white">
-        {formatNumber(point.value)}
-      </div>
+    <div className="border border-stone-300 bg-white px-2.5 py-1.5 text-xs">
+      <div className="text-stone-500">Step {point.iteration}</div>
+      <div className="font-mono text-stone-900">{formatNumber(point.value)}</div>
     </div>
   );
 };
 
 const Stat = ({ label, value }: { label: string; value: string }) => (
-  <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
-    <div className="text-[11px] font-medium uppercase tracking-widest text-zinc-500">
-      {label}
-    </div>
-    <div className="mt-1 truncate font-mono text-xl font-semibold text-white">
-      {value}
-    </div>
+  <div>
+    <div className="text-xs text-stone-500">{label}</div>
+    <div className="font-mono text-lg text-stone-900">{value}</div>
   </div>
 );
 
@@ -69,7 +62,7 @@ const CollatzConjecture = () => {
 
   const stats = useMemo(() => {
     const peak = data.reduce((max, p) => (p.value > max.value ? p : max));
-    return { start: data[0].value, steps: data.length - 1, peak };
+    return { start: data[0].value, steps: data.length - 1, peak: peak.value };
   }, [data]);
 
   const run = (n: number) => {
@@ -92,47 +85,27 @@ const CollatzConjecture = () => {
   };
 
   return (
-    <main className="grid w-full grid-cols-1 items-start gap-8 lg:grid-cols-5 lg:gap-12">
+    <main className="grid w-full grid-cols-1 gap-12 lg:grid-cols-5">
       {/* Left Section - Text and Input */}
-      <section className="flex flex-col lg:col-span-2">
-        <span className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-zinc-300 backdrop-blur">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px] shadow-emerald-400" />
-          Unsolved since 1937
-        </span>
-
-        <h1 className="mb-6 text-5xl font-semibold tracking-tight sm:text-6xl">
-          <span className="bg-gradient-to-br from-white via-violet-200 to-fuchsia-400 bg-clip-text text-transparent">
-            Collatz
-          </span>
-          <br />
-          <span className="text-zinc-400">Conjecture</span>
+      <section className="lg:col-span-2">
+        <h1 className="mb-6 text-3xl font-semibold tracking-tight text-stone-900">
+          Collatz Conjecture
         </h1>
 
-        <p className="mb-4 max-w-lg text-base leading-relaxed text-zinc-400">
-          Start with any positive integer. If it is{" "}
-          <span className="text-zinc-200">even</span>, divide it by two. If it
-          is <span className="text-zinc-200">odd</span>, multiply it by three
-          and add one. Repeat until the number reaches one.
+        <p className="mb-4 max-w-md leading-relaxed text-stone-600">
+          Start with any positive integer. If it is even, divide it by two. If
+          it is odd, multiply it by three and add one. Repeat until the number
+          reaches one.
         </p>
 
-        <div className="mb-6 flex w-fit items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2 font-mono text-sm text-zinc-300">
-          <span>
-            n → <span className="text-cyan-300">n / 2</span>
-          </span>
-          <span className="text-zinc-600">|</span>
-          <span>
-            n → <span className="text-fuchsia-300">3n + 1</span>
-          </span>
-        </div>
-
-        <p className="mb-8 max-w-lg text-base leading-relaxed text-zinc-400">
+        <p className="mb-8 max-w-md leading-relaxed text-stone-600">
           The conjecture claims this process always eventually reaches one,
           regardless of the starting number.
         </p>
 
         {/* Input and Button */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <div className="flex gap-2 rounded-2xl border border-white/10 bg-white/5 p-1.5 backdrop-blur transition focus-within:border-violet-400/50 focus-within:ring-4 focus-within:ring-violet-500/10">
+        <form onSubmit={handleSubmit} className="max-w-md">
+          <div className="flex gap-2">
             <input
               type="number"
               min={1}
@@ -141,29 +114,29 @@ const CollatzConjecture = () => {
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Enter a number"
               aria-label="Starting number"
-              className="min-w-0 flex-1 bg-transparent px-3 font-mono text-lg text-white placeholder:text-zinc-600 focus:outline-none"
+              className="min-w-0 flex-1 rounded-md border border-stone-300 bg-white px-3 py-2 font-mono text-stone-900 focus:border-stone-900 focus:outline-none"
             />
             <button
               type="submit"
-              className="rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 transition hover:brightness-110 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+              className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-400"
             >
               Generate
             </button>
           </div>
 
-          {error && <p className="text-sm text-rose-400">{error}</p>}
+          {error && <p className="mt-2 text-sm text-red-700">{error}</p>}
 
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs text-zinc-500">Try</span>
+          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+            <span className="text-stone-500">Try:</span>
             {PRESETS.map((n) => (
               <button
                 key={n}
                 type="button"
                 onClick={() => run(n)}
-                className={`rounded-full border px-3 py-1 font-mono text-xs transition ${
+                className={`font-mono underline-offset-4 hover:underline ${
                   stats.start === n
-                    ? "border-violet-400/60 bg-violet-500/20 text-violet-100"
-                    : "border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:text-zinc-200"
+                    ? "text-stone-900 underline"
+                    : "text-stone-500"
                 }`}
               >
                 {n}
@@ -174,21 +147,14 @@ const CollatzConjecture = () => {
       </section>
 
       {/* Right Section - Graph */}
-      <section className="rounded-3xl border border-white/10 bg-white/[0.03] p-4 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-6 lg:col-span-3">
-        <div className="mb-4 grid grid-cols-3 gap-3">
-          <Stat label="Start" value={formatNumber(stats.start)} />
-          <Stat label="Steps" value={formatNumber(stats.steps)} />
-          <Stat label="Peak" value={compact(stats.peak.value)} />
-        </div>
-
-        <div className="mb-2 flex items-center justify-between px-1">
-          <h2 className="text-sm font-medium text-zinc-300">
-            Trajectory of{" "}
-            <span className="font-mono text-white">
-              {formatNumber(stats.start)}
-            </span>
-          </h2>
-          <div className="flex rounded-lg border border-white/10 bg-white/5 p-0.5 text-xs">
+      <section className="lg:col-span-3">
+        <div className="mb-6 flex items-end justify-between gap-6 border-b border-stone-200 pb-4">
+          <div className="flex gap-8">
+            <Stat label="Start" value={formatNumber(stats.start)} />
+            <Stat label="Steps" value={formatNumber(stats.steps)} />
+            <Stat label="Peak" value={formatNumber(stats.peak)} />
+          </div>
+          <div className="flex gap-3 text-sm">
             {(["Linear", "Log"] as const).map((label) => {
               const active = (label === "Log") === logScale;
               return (
@@ -196,11 +162,11 @@ const CollatzConjecture = () => {
                   key={label}
                   type="button"
                   onClick={() => setLogScale(label === "Log")}
-                  className={`rounded-md px-2.5 py-1 transition ${
+                  className={
                     active
-                      ? "bg-white/10 text-white"
-                      : "text-zinc-500 hover:text-zinc-300"
-                  }`}
+                      ? "text-stone-900 underline underline-offset-4"
+                      : "text-stone-500 hover:text-stone-900"
+                  }
                 >
                   {label}
                 </button>
@@ -211,31 +177,16 @@ const CollatzConjecture = () => {
 
         <div className="h-80 w-full sm:h-96">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
+            <LineChart
               data={data}
-              margin={{ top: 16, right: 12, left: 0, bottom: 4 }}
+              margin={{ top: 8, right: 8, left: 0, bottom: 4 }}
             >
-              <defs>
-                <linearGradient id="strokeGradient" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#22d3ee" />
-                  <stop offset="50%" stopColor="#a78bfa" />
-                  <stop offset="100%" stopColor="#e879f9" />
-                </linearGradient>
-                <linearGradient id="fillGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#a78bfa" stopOpacity={0.35} />
-                  <stop offset="100%" stopColor="#a78bfa" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid
-                stroke="rgba(255,255,255,0.06)"
-                strokeDasharray="4 4"
-                vertical={false}
-              />
+              <CartesianGrid stroke="#e7e5e4" vertical={false} />
               <XAxis
                 dataKey="iteration"
-                tick={{ fill: "#71717a", fontSize: 12 }}
+                tick={{ fill: "#78716c", fontSize: 12 }}
                 tickLine={false}
-                axisLine={{ stroke: "rgba(255,255,255,0.1)" }}
+                axisLine={{ stroke: "#d6d3d1" }}
                 minTickGap={24}
               />
               <YAxis
@@ -243,40 +194,25 @@ const CollatzConjecture = () => {
                 domain={logScale ? [1, "auto"] : [0, "auto"]}
                 allowDataOverflow
                 tickFormatter={compact}
-                tick={{ fill: "#71717a", fontSize: 12 }}
+                tick={{ fill: "#78716c", fontSize: 12 }}
                 tickLine={false}
                 axisLine={false}
                 width={48}
               />
               <Tooltip
                 content={<ChartTooltip />}
-                cursor={{ stroke: "rgba(255,255,255,0.2)", strokeWidth: 1 }}
+                cursor={{ stroke: "#a8a29e", strokeWidth: 1 }}
               />
-              <Area
-                key={`${stats.start}-${logScale}`}
-                type="monotone"
+              <Line
+                type="linear"
                 dataKey="value"
-                stroke="url(#strokeGradient)"
-                strokeWidth={2.5}
-                fill="url(#fillGradient)"
-                baseValue={logScale ? 1 : 0}
-                activeDot={{
-                  r: 5,
-                  fill: "#fff",
-                  stroke: "#a78bfa",
-                  strokeWidth: 3,
-                }}
-                animationDuration={900}
+                stroke="#1c1917"
+                strokeWidth={1.5}
+                dot={false}
+                activeDot={{ r: 3, fill: "#1c1917", strokeWidth: 0 }}
+                isAnimationActive={false}
               />
-              <ReferenceDot
-                x={stats.peak.iteration}
-                y={stats.peak.value}
-                r={5}
-                fill="#e879f9"
-                stroke="#fff"
-                strokeWidth={2}
-              />
-            </AreaChart>
+            </LineChart>
           </ResponsiveContainer>
         </div>
       </section>

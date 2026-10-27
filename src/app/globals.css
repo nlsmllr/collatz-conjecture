@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #07070d;
-  --foreground: #e6e6f0;
+  --background: #fafaf9;
+  --foreground: #1c1917;
 }
 
 body {
@@ -26,36 +26,5 @@ input[type="number"] {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-
-  .bg-grid {
-    background-image: linear-gradient(
-        to right,
-        rgb(255 255 255 / 0.04) 1px,
-        transparent 1px
-      ),
-      linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
-  }
-}
-
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(4%, -6%) scale(1.08);
-  }
-}
-
-.aurora {
-  animation: drift 18s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .aurora {
-    animation: none;
   }
 }
