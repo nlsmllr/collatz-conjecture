@@ -98,9 +98,16 @@ const CollatzConjecture = () => {
           reaches one.
         </p>
 
-        <p className="mb-8 max-w-md leading-relaxed text-stone-600">
+        <p className="mb-4 max-w-md leading-relaxed text-stone-600">
           The conjecture claims this process always eventually reaches one,
           regardless of the starting number.
+        </p>
+
+        <p className="mb-8 max-w-md leading-relaxed text-stone-600">
+          Nobody has been able to prove it. Computers have checked every
+          starting number up to more than 10<sup>20</sup>, but that is not a proof. The
+          sequences rise and fall with no obvious pattern, and no one can rule
+          out a number that grows forever or ends up in a different loop.
         </p>
 
         {/* Input and Button */}
